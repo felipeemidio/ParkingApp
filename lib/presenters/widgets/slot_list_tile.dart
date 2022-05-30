@@ -3,8 +3,9 @@ import 'package:parking/domain/models/parking_slot.dart';
 
 class SlotListTile extends StatelessWidget {
   final ParkingSlot slot;
+  final VoidCallback onClickAction;
 
-  const SlotListTile({Key? key, required this.slot}) : super(key: key);
+  const SlotListTile({Key? key, required this.slot, required this.onClickAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,10 @@ class SlotListTile extends StatelessWidget {
               child: Text(slot.name),
             ),
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.input_rounded, color: Colors.green,),
+              onPressed: onClickAction,
+              icon: slot.currentRegistry == null
+                  ? const Icon(Icons.login, color: Colors.green,)
+                  : const Icon(Icons.logout, color: Colors.orangeAccent,),
             ),
           ],
         ),

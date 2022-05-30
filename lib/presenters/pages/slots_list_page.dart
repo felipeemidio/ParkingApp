@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:parking/domain/models/parking_slot.dart';
 import 'package:parking/domain/repositories/parking_slot_repository.dart';
 import 'package:parking/presenters/cubits/slot_list_cubit.dart';
 import 'package:parking/presenters/cubits/slot_list_cubit_state.dart';
+import 'package:parking/presenters/widgets/dialogs/create_registry_dialog.dart';
 import 'package:parking/presenters/widgets/dialogs/create_slot_dialog.dart';
 import 'package:parking/presenters/widgets/slot_list_tile.dart';
 
@@ -27,6 +29,14 @@ class _SpacesListPageState extends State<SpacesListPage> {
   Future<void> _createSlot(BuildContext context) async {
     final newSlot = await showCreateSlotDialog(context);
     if(newSlot != null) {
+      context.read<SlotListCubit>().fetch();
+    }
+  }
+
+  Future<void> _createRegistry(BuildContext context, ParkingSlot parkingSlot) async {
+    final newRegistry = await showCreateRegistryDialog(context, parkingSlot);
+    if(newRegistry != null) {
+      parkingSlot.currentRegistry = newRegistry;
       context.read<SlotListCubit>().fetch();
     }
   }
@@ -107,7 +117,10 @@ class _SpacesListPageState extends State<SpacesListPage> {
                   return ListView.builder(
                     itemCount: state.data.length,
                     itemBuilder: (context, index) {
-                      return SlotListTile(slot: state.data[index]);
+                      return SlotListTile(
+                        slot: state.data[index],
+                        onClickAction: () => _createRegistry(context, state.data[index]),
+                      );
                     },
                   );
                 }

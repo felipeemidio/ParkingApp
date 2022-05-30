@@ -10,7 +10,6 @@ Future<ParkingSlot?> showCreateSlotDialog(BuildContext context) async {
   return await showDialog<ParkingSlot>(context: context, builder: (context) => const CreateSlotDialog());
 }
 
-
 class CreateSlotDialog extends StatefulWidget {
 
   const CreateSlotDialog({Key? key}) : super(key: key);
@@ -106,7 +105,6 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
             ],
           ),
         ),
-
       ),
     );
   }
