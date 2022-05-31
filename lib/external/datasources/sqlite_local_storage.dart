@@ -60,6 +60,26 @@ class SqliteLocalStorage extends LocalStorageDatasource {
   }
 
   @override
+  Future<List<Map<String, dynamic>>> getAllBy(String instance, Map<String, dynamic> conditions) async {
+    await _holdUntilInitialized();
+    List<String> conditionsList = [];
+
+    conditions.forEach((key, value) {
+      String condition = '$key = $value';
+      if(value is List) {
+        condition = '$key IN (${value.join(',')})';
+      }
+      if(value == null) {
+        condition = '$key IS NULL';
+      }
+
+      conditionsList.add(condition);
+    });
+    final query = await _database!.query(instance, where: conditionsList.join(' AND '));
+    return query;
+  }
+
+  @override
   Future<Map<String, dynamic>> save(String instance, Map<String, dynamic> content) async {
     await _holdUntilInitialized();
 

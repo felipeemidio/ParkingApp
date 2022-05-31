@@ -12,4 +12,6 @@ abstract class LocalStorageDatasource {
 
   Future<List<Map<String, dynamic>>> getAll(String instance);
 
+  Future<List<Map<String, dynamic>>> getAllBy(String instance, Map<String, dynamic> conditions);
+
 }
