@@ -4,6 +4,8 @@ abstract class ParkingRegistryRepository {
 
   Future<List<ParkingRegistry>> getAll();
 
+  Future<List<ParkingRegistry>> getAllBy(Map<String, dynamic> conditions);
+
   Future<ParkingRegistry> get(String id);
 
   Future<ParkingRegistry> save(ParkingRegistry parkingRegistry);

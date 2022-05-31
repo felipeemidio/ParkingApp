@@ -17,6 +17,12 @@ class ParkingRegistryRepositoryImpl extends ParkingRegistryRepository {
   }
 
   @override
+  Future<List<ParkingRegistry>> getAllBy(Map<String, dynamic> conditions) async {
+    final rawResult = await localStorageDatasource.getAllBy(instance, conditions);
+    return rawResult.map((e) => ParkingRegistry.fromMap(e)).toList();
+  }
+
+  @override
   Future<ParkingRegistry> get(String id) async {
     final rawResult = await localStorageDatasource.get(instance, id);
     return ParkingRegistry.fromMap(rawResult);
