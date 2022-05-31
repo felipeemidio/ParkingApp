@@ -4,7 +4,7 @@ const kParkingSlotNameColumn = 'name';
 const kParkingSlotCreatedAtColumn = 'createdAt';
 
 const kParkingRegistryTableName = 'parking_registries';
-const kParkingRegistryIdColumn = 'parking_registries';
+const kParkingRegistryIdColumn = 'id';
 const kParkingRegistryCreatedAtColumn = 'createdAt';
 const kParkingRegistryEndedAtColumn = 'endedAt';
 const kParkingRegistrySlotIdColumn = 'slotId';
