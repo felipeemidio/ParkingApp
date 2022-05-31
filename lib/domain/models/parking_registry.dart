@@ -5,7 +5,7 @@ class ParkingRegistry {
   final DateTime createdAt;
   String? licensePlate;
   String? observations;
-  DateTime? endAt;
+  DateTime? endedAt;
 
   ParkingRegistry({
     required this.id,
@@ -13,11 +13,11 @@ class ParkingRegistry {
     required this.createdAt,
     required this.slotId,
     this.observations,
-    this.endAt,
+    this.endedAt,
   });
 
   void exit() {
-    endAt = DateTime.now();
+    endedAt = DateTime.now();
   }
 
   factory ParkingRegistry.fromMap(Map<String, dynamic> map) {
@@ -26,7 +26,7 @@ class ParkingRegistry {
       slotId: map['slotId'],
       licensePlate: map['licensePlate'],
       createdAt: DateTime.parse(map['createdAt'] as String),
-      endAt: map['endAt'] != null ? DateTime.parse(map['endAt'] as String) : null,
+      endedAt: map['endedAt'] != null ? DateTime.parse(map['endedAt'] as String) : null,
       observations: map['observations'],
     );
   }
@@ -37,7 +37,7 @@ class ParkingRegistry {
       'slotId': slotId,
       'licensePlate': licensePlate,
       'createdAt': createdAt.toIso8601String(),
-      'endAt': endAt?.toIso8601String(),
+      'endedAt': endedAt?.toIso8601String(),
       'observations': observations,
     };
   }

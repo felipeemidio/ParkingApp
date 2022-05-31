@@ -19,6 +19,7 @@ class RegistryCreateCubit extends Cubit<RegistryCreateCubitState> {
         licensePlate: licensePlate,
         slotId: slotId,
         createdAt: DateTime.now(),
+        observations: observations,
       );
       final registry = await parkingRegistryRepository.save(newRegistry);
 
