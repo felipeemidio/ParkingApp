@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:parking/domain/consts/routes.dart';
 import 'package:parking/domain/models/parking_slot.dart';
-import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_close_cubit.dart';
 import 'package:parking/presenters/cubits/registry_close_cubit_state.dart';

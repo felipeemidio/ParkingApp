@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:parking/domain/models/parking_registry.dart';
-import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/domain/utils/upper_case_text_formatter.dart';
 import 'package:parking/presenters/cubits/registry_edit_cubit.dart';

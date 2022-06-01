@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_list_cubit.dart';
 import 'package:parking/presenters/cubits/registry_list_cubit_state.dart';

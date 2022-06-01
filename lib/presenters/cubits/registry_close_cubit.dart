@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parking/domain/exceptions/exceptions.dart';
 import 'package:parking/domain/models/parking_registry.dart';
-import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_close_cubit_state.dart';
 
