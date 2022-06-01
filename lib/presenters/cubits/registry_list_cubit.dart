@@ -23,4 +23,19 @@ class RegistryListCubit extends Cubit<RegistryListCubitState> {
     }
   }
 
+  Future fetchBySlotId(String slotId) async {
+    try {
+      emit(state.copyWith(status: RegistryListCubitStatus.loading));
+
+      final registries = await parkingRegistryRepository.getAllBy({'slotId': slotId});
+      registries.sort((r1, r2) => r2.createdAt.compareTo(r1.createdAt));
+
+      emit(state.copyWith(status: RegistryListCubitStatus.success, data: registries));
+    } catch(e, st) {
+      print(e);
+      print(st);
+      emit(state.copyWith(status: RegistryListCubitStatus.error, error: Exception('')));
+    }
+  }
+
 }

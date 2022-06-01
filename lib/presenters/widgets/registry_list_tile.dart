@@ -6,6 +6,7 @@ import 'package:parking/domain/models/parking_registry.dart';
 import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/presenters/cubits/registry_delete_cubit.dart';
 import 'package:parking/presenters/cubits/registry_delete_cubit_state.dart';
+import 'package:parking/presenters/widgets/dialogs/delete_dialog.dart';
 
 class RegistryListTile extends StatelessWidget {
   final ParkingRegistry registry;
@@ -17,32 +18,16 @@ class RegistryListTile extends StatelessWidget {
     required this.onChange
   }) : super(key: key);
 
-  Future<void> _delete(BuildContext context, RegistryDeleteCubit cubit) async {
-    await cubit.delete(registry);
-    onChange();
-    Navigator.of(context).pop();
-  }
-
-  showDeleteDialog(BuildContext context, RegistryDeleteCubit cubit) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Delete registry?'),
-          content: const Text("This action can't be undone."),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => _delete(context, cubit),
-              style: ElevatedButton.styleFrom( primary: Theme.of(context).errorColor),
-              child: const Text('Delete'),
-            ),
-          ],
-        );
-      }
+  invokeDeleteDialog(BuildContext context, RegistryDeleteCubit cubit) {
+    showDeleteDialog(
+      context,
+      title: 'Delete registry?',
+      message: "This action can't be undone.",
+      onDelete: () async {
+        await cubit.delete(registry);
+        onChange();
+        Navigator.of(context).pop();
+      },
     );
   }
 
@@ -72,7 +57,7 @@ class RegistryListTile extends StatelessWidget {
             return IconButton(
               onPressed: state.status == RegistryDeleteCubitStatus.loading
                   ? null
-                  : () => showDeleteDialog(context, context.read<RegistryDeleteCubit>()),
+                  : () => invokeDeleteDialog(context, context.read<RegistryDeleteCubit>()),
               icon: const Icon(Icons.delete_outline, color: Colors.red,),
             );
           }

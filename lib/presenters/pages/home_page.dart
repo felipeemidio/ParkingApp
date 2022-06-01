@@ -45,14 +45,17 @@ class _HomePageState extends State<HomePage> {
       )..fetch(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Parking Slots'),
+          title: Text('Parking ${currentPage == 0 ? 'Slots' : 'Registries'}'),
           centerTitle: false,
           actions: [
             Builder(
                 builder: (context) {
-                  return IconButton(
-                    onPressed: () => _createSlot(context),
-                    icon: const Icon(Icons.add),
+                  return Visibility(
+                    visible: currentPage == 0,
+                    child: IconButton(
+                      onPressed: () => _createSlot(context),
+                      icon: const Icon(Icons.add),
+                    ),
                   );
                 }
             ),

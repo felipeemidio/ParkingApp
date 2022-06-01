@@ -65,9 +65,10 @@ class SqliteLocalStorage extends LocalStorageDatasource {
     List<String> conditionsList = [];
 
     conditions.forEach((key, value) {
-      String condition = '$key = $value';
+      String condition = value is String ? "$key = '$value'" : '$key = $value';
       if(value is List) {
-        condition = '$key IN (${value.join(',')})';
+        final formattedValues = value.map((e) => e is String ? "'e'" : e);
+        condition = '$key IN (${formattedValues.join(',')})';
       }
       if(value == null) {
         condition = '$key IS NULL';
