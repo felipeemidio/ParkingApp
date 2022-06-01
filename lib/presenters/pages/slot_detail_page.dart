@@ -143,6 +143,7 @@ class _SlotDetailPageState extends State<SlotDetailPage> {
                       itemBuilder: (context, index) {
                         return RegistryListTile(
                           registry: state.data[index],
+                          margin: const EdgeInsets.fromLTRB(0, 8, 0, 4),
                           onChange: () {
                             if(!hasUpdated) {
                               hasUpdated = true;

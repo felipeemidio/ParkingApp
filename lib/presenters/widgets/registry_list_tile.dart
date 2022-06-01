@@ -11,11 +11,13 @@ import 'package:parking/presenters/widgets/dialogs/delete_dialog.dart';
 class RegistryListTile extends StatelessWidget {
   final ParkingRegistry registry;
   final VoidCallback onChange;
+  final EdgeInsets? margin;
 
   const RegistryListTile({
     Key? key,
     required this.registry,
-    required this.onChange
+    required this.onChange,
+    this.margin,
   }) : super(key: key);
 
   invokeDeleteDialog(BuildContext context, RegistryDeleteCubit cubit) {
@@ -34,33 +36,68 @@ class RegistryListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateFormat = DateFormat.yMd().add_Hm();
-    return BlocProvider<RegistryDeleteCubit>(
+
+    return BlocProvider(
       create: (_) => RegistryDeleteCubit(
           parkingRegistryRepository: GetIt.I.get<ParkingRegistryRepository>()),
-      child: ListTile(
-        title: Text('Registry ${registry.id.substring(0, 8)}'),
-        subtitle: Text('${registry.licensePlate}\n${dateFormat.format(registry.createdAt)} - '
-            '${registry.endedAt == null ? 'parked' : dateFormat.format(registry.endedAt!)}'),
-        isThreeLine: true,
-        trailing: BlocConsumer<RegistryDeleteCubit, RegistryDeleteCubitState>(
-          listener: (context, state) {
-            if(state.status == RegistryDeleteCubitStatus.error) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Something went wrong!'),
-                  backgroundColor: Theme.of(context).errorColor,
-                )
-              );
-            }
-          },
-          builder: (context, state) {
-            return IconButton(
-              onPressed: state.status == RegistryDeleteCubitStatus.loading
-                  ? null
-                  : () => invokeDeleteDialog(context, context.read<RegistryDeleteCubit>()),
-              icon: const Icon(Icons.delete_outline, color: Colors.red,),
-            );
-          }
+      child: Card(
+        elevation: 2,
+        margin: margin ?? const EdgeInsets.fromLTRB(20, 8, 20, 4),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Registry ${registry.id.substring(0, 8)}'),
+                    const SizedBox(height: 4,),
+                    Text(
+                      '${registry.licensePlate}',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(height: 4,),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        children: [
+                          TextSpan(text: '${dateFormat.format(registry.createdAt)} - '),
+                          TextSpan(
+                            text: registry.endedAt == null ? 'parked' : dateFormat.format(registry.endedAt!),
+                            style: registry.endedAt == null
+                                ? const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)
+                                : null,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              BlocConsumer<RegistryDeleteCubit, RegistryDeleteCubitState>(
+                  listener: (context, state) {
+                    if(state.status == RegistryDeleteCubitStatus.error) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Something went wrong!'),
+                            backgroundColor: Theme.of(context).errorColor,
+                          )
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return IconButton(
+                      onPressed: state.status == RegistryDeleteCubitStatus.loading
+                          ? null
+                          : () => invokeDeleteDialog(context, context.read<RegistryDeleteCubit>()),
+                      icon: const Icon(Icons.delete_outline, color: Colors.red,),
+                    );
+                  }
+              ),
+            ],
+          ),
         ),
       ),
     );
