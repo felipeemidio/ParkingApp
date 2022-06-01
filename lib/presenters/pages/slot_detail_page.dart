@@ -6,6 +6,8 @@ import 'package:get_it/get_it.dart';
 import 'package:parking/domain/models/parking_slot.dart';
 import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/domain/repositories/parking_slot_repository.dart';
+import 'package:parking/domain/usecases/parking_registry_usecase.dart';
+import 'package:parking/domain/usecases/parking_slot_usecase.dart';
 import 'package:parking/presenters/cubits/registry_list_cubit.dart';
 import 'package:parking/presenters/cubits/registry_list_cubit_state.dart';
 import 'package:parking/presenters/cubits/slot_delete_cubit.dart';
@@ -79,7 +81,7 @@ class _SlotDetailPageState extends State<SlotDetailPage> {
         actions: [
           BlocProvider<SlotDeleteCubit>(
             create: (context) => SlotDeleteCubit(
-              parkingSlotRepository: GetIt.I.get<ParkingSlotRepository>(),
+              parkingSlotUsecase: GetIt.I.get<ParkingSlotUsecase>(),
             ),
             child: BlocConsumer<SlotDeleteCubit, SlotDeleteCubitState>(
               listener: (context, state) {
@@ -108,12 +110,12 @@ class _SlotDetailPageState extends State<SlotDetailPage> {
           providers: [
             BlocProvider<RegistryListCubit>(
               create: (context) => RegistryListCubit(
-                parkingRegistryRepository: GetIt.I.get<ParkingRegistryRepository>(),
+                parkingRegistryUsecase: GetIt.I.get<ParkingRegistryUsecase>(),
               )..fetchBySlotId(widget.parkingSlot.id),
             ),
             BlocProvider<SlotEditCubit>(
               create: (context) => SlotEditCubit(
-                parkingSlotRepository: GetIt.I.get<ParkingSlotRepository>(),
+                parkingSlotUsecase: GetIt.I.get<ParkingSlotUsecase>(),
               ),
             ),
           ],

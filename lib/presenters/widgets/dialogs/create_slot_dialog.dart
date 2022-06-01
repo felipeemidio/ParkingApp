@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parking/domain/models/parking_slot.dart';
-import 'package:parking/domain/repositories/parking_slot_repository.dart';
+import 'package:parking/domain/usecases/parking_slot_usecase.dart';
 import 'package:parking/presenters/cubits/slot_create_cubit.dart';
 import 'package:parking/presenters/cubits/slot_create_cubit_state.dart';
 
@@ -45,7 +45,7 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
   Widget build(BuildContext context) {
     return BlocProvider<SlotCreateCubit>(
       create: (_) => SlotCreateCubit(
-          parkingSlotRepository: GetIt.I.get<ParkingSlotRepository>()),
+          parkingSlotUsecase: GetIt.I.get<ParkingSlotUsecase>()),
       child: Dialog(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),

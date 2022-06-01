@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:parking/domain/models/parking_registry.dart';
 import 'package:parking/domain/repositories/parking_registry_repository.dart';
+import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_delete_cubit.dart';
 import 'package:parking/presenters/cubits/registry_delete_cubit_state.dart';
 import 'package:parking/presenters/widgets/dialogs/delete_dialog.dart';
@@ -47,7 +48,7 @@ class RegistryListTile extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => RegistryDeleteCubit(
-          parkingRegistryRepository: GetIt.I.get<ParkingRegistryRepository>()),
+          parkingRegistryUsecase: GetIt.I.get<ParkingRegistryUsecase>()),
       child: Card(
         elevation: 2,
         margin: margin ?? const EdgeInsets.fromLTRB(20, 8, 20, 4),

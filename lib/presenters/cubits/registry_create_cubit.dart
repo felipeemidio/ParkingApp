@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parking/domain/models/parking_registry.dart';
-import 'package:parking/domain/repositories/parking_registry_repository.dart';
+import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_create_cubit_state.dart';
 import 'package:uuid/uuid.dart';
 
 class RegistryCreateCubit extends Cubit<RegistryCreateCubitState> {
-  ParkingRegistryRepository parkingRegistryRepository;
+  ParkingRegistryUsecase parkingRegistryUsecase;
 
-  RegistryCreateCubit({required this.parkingRegistryRepository})
+  RegistryCreateCubit({required this.parkingRegistryUsecase})
       : super(RegistryCreateCubitState.initial());
 
   Future save(String slotId, String licensePlate, String? observations) async {
@@ -21,7 +21,7 @@ class RegistryCreateCubit extends Cubit<RegistryCreateCubitState> {
         createdAt: DateTime.now(),
         observations: observations,
       );
-      final registry = await parkingRegistryRepository.save(newRegistry);
+      final registry = await parkingRegistryUsecase.save(newRegistry);
 
       emit(state.copyWith(status: RegistryCreateCubitStatus.success, data: registry));
     } catch(e, st) {

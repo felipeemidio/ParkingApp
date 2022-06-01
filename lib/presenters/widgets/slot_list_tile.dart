@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:parking/domain/consts/routes.dart';
 import 'package:parking/domain/models/parking_slot.dart';
 import 'package:parking/domain/repositories/parking_registry_repository.dart';
+import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_close_cubit.dart';
 import 'package:parking/presenters/cubits/registry_close_cubit_state.dart';
 import 'package:parking/presenters/widgets/dialogs/create_registry_dialog.dart';
@@ -39,7 +40,7 @@ class SlotListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RegistryCloseCubit>(
-      create: (_) => RegistryCloseCubit(parkingRegistryRepository: GetIt.I.get<ParkingRegistryRepository>()),
+      create: (_) => RegistryCloseCubit(parkingRegistryUsecase: GetIt.I.get<ParkingRegistryUsecase>()),
       child: Card(
         elevation: 2,
         margin: const EdgeInsets.fromLTRB(20, 8, 20, 4),

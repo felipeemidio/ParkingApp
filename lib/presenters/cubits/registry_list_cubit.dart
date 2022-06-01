@@ -1,18 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parking/domain/repositories/parking_registry_repository.dart';
+import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/presenters/cubits/registry_list_cubit_state.dart';
 
 class RegistryListCubit extends Cubit<RegistryListCubitState> {
-  ParkingRegistryRepository parkingRegistryRepository;
+  ParkingRegistryUsecase parkingRegistryUsecase;
 
-  RegistryListCubit({required this.parkingRegistryRepository})
+  RegistryListCubit({required this.parkingRegistryUsecase})
       : super(RegistryListCubitState.initial());
 
   Future fetch() async {
     try {
       emit(state.copyWith(status: RegistryListCubitStatus.loading));
 
-      final registries = await parkingRegistryRepository.getAll();
+      final registries = await parkingRegistryUsecase.getAll();
       registries.sort((r1, r2) => r2.createdAt.compareTo(r1.createdAt));
 
       emit(state.copyWith(status: RegistryListCubitStatus.success, data: registries));
@@ -27,7 +28,7 @@ class RegistryListCubit extends Cubit<RegistryListCubitState> {
     try {
       emit(state.copyWith(status: RegistryListCubitStatus.loading));
 
-      final registries = await parkingRegistryRepository.getAllBy({'slotId': slotId});
+      final registries = await parkingRegistryUsecase.getAllBy({'slotId': slotId});
       registries.sort((r1, r2) => r2.createdAt.compareTo(r1.createdAt));
 
       emit(state.copyWith(status: RegistryListCubitStatus.success, data: registries));
