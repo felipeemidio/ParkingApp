@@ -41,4 +41,21 @@ class ParkingRegistry {
       'observations': observations,
     };
   }
+
+  ParkingRegistry copyWith({
+    String? slotId,
+    String? licensePlate,
+    DateTime? createdAt,
+    DateTime? endedAt,
+    String? observations,
+  }) {
+    return ParkingRegistry(
+      id: id,
+      slotId: slotId ?? this.slotId,
+      licensePlate: licensePlate ?? this.licensePlate,
+      createdAt: createdAt ?? this.createdAt,
+      endedAt: endedAt ?? this.endedAt,
+      observations: observations ?? this.observations,
+    );
+  }
 }

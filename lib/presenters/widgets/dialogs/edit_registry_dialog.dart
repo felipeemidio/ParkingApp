@@ -3,32 +3,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:parking/domain/models/parking_registry.dart';
-import 'package:parking/domain/models/parking_slot.dart';
 import 'package:parking/domain/repositories/parking_registry_repository.dart';
 import 'package:parking/domain/utils/upper_case_text_formatter.dart';
-import 'package:parking/presenters/cubits/registry_create_cubit.dart';
-import 'package:parking/presenters/cubits/registry_create_cubit_state.dart';
+import 'package:parking/presenters/cubits/registry_edit_cubit.dart';
+import 'package:parking/presenters/cubits/registry_edit_cubit_state.dart';
 
-Future<ParkingRegistry?> showCreateRegistryDialog(BuildContext context, ParkingSlot parkingSlot) async {
-  return await showDialog<ParkingRegistry>(
-      context: context,
-      builder: (context) => CreateRegistryDialog(parkingSlot: parkingSlot),
+Future<bool?> showEditRegistryDialog(BuildContext context, ParkingRegistry registry) async {
+  return await showDialog<bool>(
+    context: context,
+    builder: (context) => EditRegistryDialog(registry: registry),
   );
 }
 
-class CreateRegistryDialog extends StatefulWidget {
-  final ParkingSlot parkingSlot;
+class EditRegistryDialog extends StatefulWidget {
+  final ParkingRegistry registry;
 
-  const CreateRegistryDialog({Key? key, required this.parkingSlot}) : super(key: key);
+  const EditRegistryDialog({Key? key, required this.registry}) : super(key: key);
 
   @override
-  State<CreateRegistryDialog> createState() => _CreateRegistryDialogState();
+  State<EditRegistryDialog> createState() => _EditRegistryDialogState();
 }
 
-class _CreateRegistryDialogState extends State<CreateRegistryDialog> {
+class _EditRegistryDialogState extends State<EditRegistryDialog> {
   final formKey = GlobalKey<FormState>();
   final plateController = TextEditingController();
   final observationsController = TextEditingController();
+
+  @override
+  void initState() {
+    plateController.text = widget.registry.licensePlate ?? '';
+    observationsController.text = widget.registry.observations ?? '';
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -46,18 +53,18 @@ class _CreateRegistryDialogState extends State<CreateRegistryDialog> {
 
   Future<void> submit(BuildContext context) async {
     if(formKey.currentState?.validate() ?? false) {
-      await context.read<RegistryCreateCubit>().save(
-        widget.parkingSlot.id,
-        plateController.text.trim(),
-        observationsController.text.trim(),
+      final newRegistry = widget.registry.copyWith(
+        licensePlate: plateController.text.trim(),
+        observations: observationsController.text.trim(),
       );
+      await context.read<RegistryEditCubit>().edit(newRegistry);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RegistryCreateCubit>(
-      create: (_) => RegistryCreateCubit(
+    return BlocProvider<RegistryEditCubit>(
+      create: (_) => RegistryEditCubit(
           parkingRegistryRepository: GetIt.I.get<ParkingRegistryRepository>()),
       child: Dialog(
         child: Padding(
@@ -70,14 +77,16 @@ class _CreateRegistryDialogState extends State<CreateRegistryDialog> {
                 key: formKey,
                 child: Column(
                   children: [
+                    Text('Slot Id: ${widget.registry.slotId.substring(0, 8)}'),
+                    const SizedBox(height: 8,),
                     TextFormField(
                       controller: plateController,
                       validator: isRequired,
                       textInputAction: TextInputAction.next,
                       inputFormatters: [const UpperCaseTextFormatter(), MaskTextInputFormatter(mask: "AAA-####")],
                       decoration: const InputDecoration(
-                          label: Text('License Plate'),
-                          hintText: 'ABC-1234'
+                        label: Text('License Plate'),
+                        hintText: 'ABC-1234'
                       ),
                     ),
                     TextFormField(
@@ -98,28 +107,28 @@ class _CreateRegistryDialogState extends State<CreateRegistryDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => Navigator.of(context).pop(false),
                     child: const Text('Cancel'),
                   ),
                   const SizedBox(width: 8,),
-                  BlocConsumer<RegistryCreateCubit, RegistryCreateCubitState>(
+                  BlocConsumer<RegistryEditCubit, RegistryEditCubitState>(
                       listener: (context, state) {
-                        if(state.status == RegistryCreateCubitStatus.error) {
+                        if(state.status == RegistryEditCubitStatus.error) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: const Text('Something went wrong'),
                               backgroundColor: Theme.of(context).errorColor,
                             ),
                           );
-                        } else if (state.status == RegistryCreateCubitStatus.success) {
-                          Navigator.of(context).pop(state.data);
+                        } else if (state.status == RegistryEditCubitStatus.success) {
+                          Navigator.of(context).pop(true);
                         }
                       },
                       builder: (context, state) {
                         return ElevatedButton(
-                          onPressed: state.status == RegistryCreateCubitStatus.loading
+                          onPressed: state.status == RegistryEditCubitStatus.loading
                               ? null : () => submit(context),
-                          child: const Text('Save'),
+                          child: const Text('Edit'),
                         );
                       }
                   )
