@@ -24,7 +24,11 @@ void setUp() {
 
   // usecases
   getIt.registerSingleton<ParkingSlotUsecase>(
-      ParkingSlotUsecase(parkingSlotRepository: getIt.get<ParkingSlotRepository>()));
+      ParkingSlotUsecase(
+        parkingSlotRepository: getIt.get<ParkingSlotRepository>(),
+        parkingRegistryRepository: getIt.get<ParkingRegistryRepository>(),
+      ),
+  );
   getIt.registerSingleton<ParkingRegistryUsecase>(
       ParkingRegistryUsecase(parkingRegistryRepository: getIt.get<ParkingRegistryRepository>()));
 

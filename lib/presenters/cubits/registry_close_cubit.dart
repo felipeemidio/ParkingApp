@@ -14,8 +14,7 @@ class RegistryCloseCubit extends Cubit<RegistryCloseCubitState> {
     try {
       emit(state.copyWith(status: RegistryCloseCubitStatus.loading));
 
-      registry.exit();
-      final closedRegistry = await parkingRegistryUsecase.edit(registry);
+      final closedRegistry = await parkingRegistryUsecase.close(registry);
 
       emit(state.copyWith(status: RegistryCloseCubitStatus.success, data: closedRegistry));
     } on ParkingException catch (e) {

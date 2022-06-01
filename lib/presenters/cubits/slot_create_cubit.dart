@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parking/domain/exceptions/exceptions.dart';
 import 'package:parking/domain/models/parking_slot.dart';
 import 'package:parking/domain/usecases/parking_slot_usecase.dart';
 import 'package:parking/presenters/cubits/slot_create_cubit_state.dart';
@@ -22,10 +23,13 @@ class SlotCreateCubit extends Cubit<SlotCreateCubitState> {
       final slot = await parkingSlotUsecase.save(newSlot);
 
       emit(state.copyWith(status: SlotCreateCubitStatus.success, data: slot));
+    } on ParkingException catch (e) {
+      emit(state.copyWith(status: SlotCreateCubitStatus.error, error: e));
     } catch(e, st) {
-      print(e);
-      print(st);
-      emit(state.copyWith(status: SlotCreateCubitStatus.error, error: Exception('')));
+      emit(state.copyWith(
+          status: SlotCreateCubitStatus.error,
+          error: CubitException('Unknown Error', error: e, stackTrace: st)),
+      );
     }
   }
 
