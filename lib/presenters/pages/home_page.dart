@@ -32,6 +32,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _refreshSlots(BuildContext context) async {
+    context.read<SlotListCubit>().fetch();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SlotListCubit>(
@@ -77,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             controller: controller,
             children: [
               SlotListView(createSlot: _createSlot),
-              const RegistriesListView(),
+              RegistriesListView(refreshListSlots: _refreshSlots),
             ],
           ),
         ),
