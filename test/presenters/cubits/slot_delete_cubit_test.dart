@@ -9,13 +9,18 @@ import '../../mocks/mocks.dart';
 
 main() {
   final mockSlotUsecase = MockParkingSlotUsecase();
+  final mockRegistryUsecase = MockParkingRegistryUsecase();
 
   blocTest<SlotDeleteCubit, SlotDeleteCubitState>(
       'edit ParkingSlots',
       build: () {
+        when(() => mockRegistryUsecase.getAllBySlotId(any())).thenAnswer((_) async => []);
         when(() => mockSlotUsecase.delete(mockParkingSlot)).thenAnswer((_) async => mockParkingSlot);
 
-        return SlotDeleteCubit(parkingSlotUsecase: mockSlotUsecase);
+        return SlotDeleteCubit(
+          parkingSlotUsecase: mockSlotUsecase,
+          parkingRegistryUsecase: mockRegistryUsecase,
+        );
       },
       act: (cubit) => cubit.delete(mockParkingSlot),
       expect: () => <SlotDeleteCubitState>[
@@ -27,9 +32,13 @@ main() {
   blocTest<SlotDeleteCubit, SlotDeleteCubitState>(
       'edit ParkingSlots throws an exception',
       build: () {
+        when(() => mockRegistryUsecase.getAllBySlotId(any())).thenAnswer((_) async => []);
         when(() => mockSlotUsecase.delete(mockParkingSlot)).thenThrow((_) async => UsecaseException(''));
 
-        return SlotDeleteCubit(parkingSlotUsecase: mockSlotUsecase);
+        return SlotDeleteCubit(
+          parkingSlotUsecase: mockSlotUsecase,
+          parkingRegistryUsecase: mockRegistryUsecase,
+        );
       },
       act: (cubit) => cubit.delete(mockParkingSlot),
       expect: () => <SlotDeleteCubitState>[

@@ -1,3 +1,4 @@
+import 'package:parking/domain/exceptions/exceptions.dart';
 import 'package:parking/domain/models/parking_slot.dart';
 
 enum SlotCreateCubitStatus {
@@ -10,18 +11,23 @@ enum SlotCreateCubitStatus {
 class SlotCreateCubitState {
   SlotCreateCubitStatus status;
   ParkingSlot? data;
-  Exception? error;
+  ParkingException? error;
 
   SlotCreateCubitState({required this.status, this.data, this.error});
 
   factory SlotCreateCubitState.initial() => SlotCreateCubitState(status: SlotCreateCubitStatus.idle);
 
-  SlotCreateCubitState copyWith({SlotCreateCubitStatus? status, ParkingSlot? data, Exception? error}) {
+  SlotCreateCubitState copyWith({SlotCreateCubitStatus? status, ParkingSlot? data, ParkingException? error}) {
     return SlotCreateCubitState(
       status: status ?? this.status,
       data: data ?? this.data,
       error: error ?? this.error,
     );
+  }
+
+  @override
+  String toString() {
+    return {'status': status.name, 'data': data, 'error': error,}.toString();
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:parking/domain/exceptions/exceptions.dart';
 import 'package:parking/domain/models/parking_slot.dart';
 
 enum SlotListCubitStatus {
@@ -10,13 +11,13 @@ enum SlotListCubitStatus {
 class SlotListCubitState {
   SlotListCubitStatus status;
   List<ParkingSlot> data;
-  Exception? error;
+  ParkingException? error;
 
   SlotListCubitState({required this.status, this.data = const [], this.error});
 
   factory SlotListCubitState.initial() => SlotListCubitState(status: SlotListCubitStatus.idle);
 
-  SlotListCubitState copyWith({SlotListCubitStatus? status, List<ParkingSlot>? data, Exception? error}) {
+  SlotListCubitState copyWith({SlotListCubitStatus? status, List<ParkingSlot>? data, ParkingException? error}) {
     return SlotListCubitState(
       status: status ?? this.status,
       data: data ?? this.data,

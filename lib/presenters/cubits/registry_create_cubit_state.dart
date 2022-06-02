@@ -1,3 +1,4 @@
+import 'package:parking/domain/exceptions/exceptions.dart';
 import 'package:parking/domain/models/parking_registry.dart';
 
 enum RegistryCreateCubitStatus {
@@ -10,18 +11,23 @@ enum RegistryCreateCubitStatus {
 class RegistryCreateCubitState {
   RegistryCreateCubitStatus status;
   ParkingRegistry? data;
-  Exception? error;
+  ParkingException? error;
 
   RegistryCreateCubitState({required this.status, this.data, this.error});
 
   factory RegistryCreateCubitState.initial() => RegistryCreateCubitState(status: RegistryCreateCubitStatus.idle);
 
-  RegistryCreateCubitState copyWith({RegistryCreateCubitStatus? status, ParkingRegistry? data, Exception? error}) {
+  RegistryCreateCubitState copyWith({RegistryCreateCubitStatus? status, ParkingRegistry? data, ParkingException? error}) {
     return RegistryCreateCubitState(
       status: status ?? this.status,
       data: data ?? this.data,
       error: error ?? this.error,
     );
+  }
+
+  @override
+  String toString() {
+    return {'status': status.name, 'data': data, 'error': error,}.toString();
   }
 
   @override

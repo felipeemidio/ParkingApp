@@ -80,13 +80,14 @@ class _SlotDetailPageState extends State<SlotDetailPage> {
           BlocProvider<SlotDeleteCubit>(
             create: (context) => SlotDeleteCubit(
               parkingSlotUsecase: GetIt.I.get<ParkingSlotUsecase>(),
+              parkingRegistryUsecase: GetIt.I.get<ParkingRegistryUsecase>(),
             ),
             child: BlocConsumer<SlotDeleteCubit, SlotDeleteCubitState>(
               listener: (context, state) {
                 if(state.status == SlotDeleteCubitStatus.error) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: const Text('Something went wrong!'),
+                      content: Text(state.error?.message ?? 'Something went wrong!'),
                       backgroundColor: Theme.of(context).errorColor,
                     ),
                   );
