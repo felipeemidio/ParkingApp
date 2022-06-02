@@ -20,13 +20,21 @@ wrote in portuguese:
 
 With Flutter installed, clone this project to your local machine.
 
+```
+git clone https://github.com/felipeemidio/ParkingApp.git
+```
+
 install all project dependencies:
 
-`flutter pub get`
+```
+flutter pub get
+```
 
 run the project with command:
 
-`flutter run`
+```
+flutter run
+```
 
 ## Projects Architecture
 
