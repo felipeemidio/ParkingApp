@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/domain/usecases/parking_slot_usecase.dart';
 import 'package:parking/presenters/cubits/slot_list_cubit.dart';
 import 'package:parking/presenters/pages/registries_list_view.dart';
@@ -41,7 +40,6 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider<SlotListCubit>(
       create: (_) => SlotListCubit(
         parkingSlotUsecase: GetIt.I.get<ParkingSlotUsecase>(),
-        parkingRegistryUsecase: GetIt.I.get<ParkingRegistryUsecase>(),
       )..fetch(),
       child: Scaffold(
         appBar: AppBar(

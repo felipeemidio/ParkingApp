@@ -23,4 +23,19 @@ class SlotListCubitState {
       error: error ?? this.error,
     );
   }
+
+  @override
+  String toString() {
+    return {'status': status.name, 'data': data, 'error': error,}.toString();
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SlotListCubitState &&
+          runtimeType == other.runtimeType &&
+          status == other.status;
+
+  @override
+  int get hashCode => status.hashCode;
 }

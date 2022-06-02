@@ -23,4 +23,14 @@ class RegistryCloseCubitState {
       error: error ?? this.error,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RegistryCloseCubitState &&
+          runtimeType == other.runtimeType &&
+          status == other.status;
+
+  @override
+  int get hashCode => status.hashCode;
 }

@@ -23,4 +23,14 @@ class SlotEditCubitState {
       error: error ?? this.error,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SlotEditCubitState &&
+          runtimeType == other.runtimeType &&
+          status == other.status;
+
+  @override
+  int get hashCode => status.hashCode;
 }

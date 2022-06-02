@@ -1,14 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parking/domain/exceptions/exceptions.dart';
-import 'package:parking/domain/usecases/parking_registry_usecase.dart';
 import 'package:parking/domain/usecases/parking_slot_usecase.dart';
 import 'package:parking/presenters/cubits/slot_list_cubit_state.dart';
 
 class SlotListCubit extends Cubit<SlotListCubitState> {
   ParkingSlotUsecase parkingSlotUsecase;
-  ParkingRegistryUsecase parkingRegistryUsecase;
 
-  SlotListCubit({required this.parkingSlotUsecase, required this.parkingRegistryUsecase})
+  SlotListCubit({required this.parkingSlotUsecase})
       : super(SlotListCubitState.initial());
 
   Future fetch() async {
