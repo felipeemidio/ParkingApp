@@ -36,7 +36,7 @@ run the project with command:
 flutter run
 ```
 
-## Projects Architecture
+## Project's Architecture
 
 This project was built using a simplified version of the clean architecture 
 proposed in this (link)[https://github.com/Flutterando/Clean-Dart]
