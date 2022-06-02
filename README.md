@@ -1,16 +1,34 @@
-# parking
+# Parking App
 
-A new Flutter project.
+An app for help to manage a parking lot. It aims to achieve the requisite of the following challenge
+wrote in portuguese:
 
-## Getting Started
+    Seu João tem um estacionamento e hoje tem um caderno onde anota todas as entradas e saídas, 
+    assim como preenche qual vaga o caminhão ocupa cada vez que acontece uma entrada ou saída.
+    Agora o Sr. João quer poder fazer isso na palma de sua mão com seu Smartphone. 
+    Com seu app, ele quer ver quais vagas estão ou não ocupadas, assim como registrar 
+    entradas e saídas dos veículos e qual vaga estes veículos estão ocupando! 
+    Ele também queria ter um histórico dessas entradas e saídas para poder fazer o fechamento 
+    no final do dia.
 
-This project is a starting point for a Flutter application.
+## Requirements
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter: v2.10
+- Dart: v2.16
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Install
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+With Flutter installed, clone this project to your local machine.
+
+install all project dependencies:
+
+`flutter pub get`
+
+run the project with command:
+
+`flutter run`
+
+## Projects Architecture
+
+This project was built using a simplified version of the clean architecture 
+proposed in this (link)[https://github.com/Flutterando/Clean-Dart]
